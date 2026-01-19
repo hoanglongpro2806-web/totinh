@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chỉ dành cho Em ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;700&display=swap');
+
+        body {
+            margin: 0; padding: 0;
+            background: #0a0a0a;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; font-family: 'Roboto', sans-serif;
+            overflow: hidden; color: white;
+            position: relative;
+        }
+
+        #bg-video {
+            position: fixed; right: 0; bottom: 0;
+            min-width: 100%; min-height: 100%;
+            z-index: -2;
+            filter: brightness(0.3) saturate(1.2);
+            object-fit: cover;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 5s infinite ease-in-out;
+            z-index: -1;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.7; transform: scale(1); }
+        }
+
+        /* --- PHẦN RESPONSIVE CHO CARD --- */
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px; border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-align: center; 
+            width: 450px;
+            max-width: 90vw; /* Đảm bảo không tràn màn hình mobile */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem; margin-bottom: 15px;
+            color: #ff69b4;
+            text-shadow: 0 0 15px #ff69b4, 0 0 30px rgba(255, 105, 180, 0.5);
+        }
+
+        p { font-size: 1.15rem; line-height: 1.6; margin-bottom: 35px; color: #e0e0e0; }
+
+        .btn-group { 
+            display: flex; 
+            justify-content: space-around; 
+            position: relative; 
+            min-height: 60px; /* Giữ chỗ cho nút chạy trốn trên mobile */
+        }
+
+        .btn {
+            padding: 15px 40px; border: none; border-radius: 50px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+            font-size: 1.1rem; text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        #yes-btn { background: #ff69b4; color: white; box-shadow: 0 0 25px #ff69b4; z-index: 2;}
+        #no-btn {
+            background: #444; color: white;
+            position: absolute;
+            left: 60%;
+box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+
+        #main-photo {
+            width: 250px; height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #ff69b4;
+            box-shadow: 0 0 30px #ff69b4;
+            margin: 0 auto 20px auto;
+            display: block;
+        }
+
+        #photo-gallery {
+            margin: 20px 0;
+            display: flex; justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-photo {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ff69b4;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* --- MOBILE OPTIMIZATION (iPhone 14 Pro Max & Others) --- */
+        @media (max-width: 600px) {
+            .card { padding: 25px 20px; }
+            h1 { font-size: 1.8rem; }
+            p { font-size: 0.95rem; margin-bottom: 20px; }
+            #main-photo { width: 160px; height: 160px; }
+            .gallery-photo { width: 50px; height: 50px; }
+            .btn { padding: 12px 20px; font-size: 0.85rem; }
+            #no-btn { left: 55%; }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <script>
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = star.style.height = `${Math.random() * 3 + 1}px`;
+            star.style.left = `${Math.random() * 100}vw`;
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            document.body.appendChild(star);
+        }
+    </script>
+
+    <div id="start-screen" class="card">
+        <h1>Một Món Quà Đặc Biệt ❤️</h1>
+        <p>Có một điều bí mật mà anh muốn nói với em trong khoảnh khắc này...</p>
+        <button class="btn" id="open-btn" style="background: white; color: #ff69b4;">Khám phá ngay!</button>
+    </div>
+
+    <div id="main-content" class="card hidden">
+        <img id="main-photo" src="1.jpg" alt="Ảnh của bạn ấy"> 
+        <div id="photo-gallery">
+            <img class="gallery-photo" src="2.jpg" alt="Ảnh 1">
+            <img class="gallery-photo" src="3.jpg" alt="Ảnh 2">
+            <img class="gallery-photo" src="1.jpg" alt="Ảnh 3">
+        </div>
+        <h1>Em có đồng ý làm bạn gái anh không? 💖</h1>
+        <p>Mỗi khoảnh khắc bên em đều là một kỷ niệm đáng giá. Anh muốn được cùng em viết tiếp câu chuyện tình yêu của chúng mình.</p>
+        
+        <div class="btn-group" id="btn-area">
+            <button class="btn" id="yes-btn">ĐỒNG Ý!</button>
+            <button class="btn" id="no-btn">KHÔNG</button>
+        </div>
+    </div>
+<div id="success-screen" class="card hidden">
+        <h1>YEAH! Em là của anh! 🎉</h1>
+        <p>Cảm ơn em đã cho anh cơ hội được yêu thương em. Anh hứa sẽ luôn khiến em hạnh phúc! Anh yêu em!</p>
+        <div style="font-size: 50px;">💖💍✨🥳</div>
+    </div>
+
+    <audio id="love-music" loop>
+        <source src="Tình Yêu Giữa Mùa Đông (Acv Lofi).mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const openBtn = document.getElementById('open-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const music = document.getElementById('love-music');
+        const mainPhoto = document.getElementById('main-photo');
+        const galleryPhotos = document.querySelectorAll('.gallery-photo');
+
+        openBtn.onclick = () => {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            music.play().catch(e => console.error("Lỗi phát nhạc:", e));
+        };
+
+        // Hàm di chuyển nút KHÔNG (Hỗ trợ cả di chuột và chạm tay)
+        const moveNoBtn = () => {
+            const container = document.getElementById('main-content');
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            const maxX = containerRect.width - btnRect.width;
+            const maxY = containerRect.height - btnRect.height - 40;
+
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        };
+
+        noBtn.onmouseover = moveNoBtn;
+        noBtn.ontouchstart = (e) => { e.preventDefault(); moveNoBtn(); };
+
+        yesBtn.onclick = () => {
+            document.getElementById('main-content').classList.add('hidden');
+            document.getElementById('success-screen').classList.remove('hidden');
+            
+            var duration = 15 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        };
+
+        galleryPhotos.forEach(photo => {
+            photo.onclick = () => {
+mainPhoto.src = photo.src;
+            };
+        });
+    </script>
+</body>
+</html>
